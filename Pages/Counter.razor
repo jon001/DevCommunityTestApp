@@ -1,0 +1,41 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+    private List<string> allItems = new List<string>() { "oi2" };
+
+    private async void IncrementCount()
+    {
+        await GetCount(currentCount);
+
+        currentCount++;
+    }
+
+    private async Task<int> GetCount(int val){
+
+        await Task.Run(() => Console.WriteLine("test"));
+
+        if (val == 1){
+            var filteredLocalItems = allItems.Where(r => r != "");
+
+            if (filteredLocalItems != null) // *** BREAKPOINT HERE.
+            {
+                Console.WriteLine("hey");
+            }
+            return 1;
+        }
+        else if (val == 0){
+            IEnumerable<string>? filteredLocalItems = null; // *** RENAMING THIS TO filteredLocalItemsX RESOLVES THE PROBLEM.
+            return 0;
+        }
+        return -1;
+    }
+}
